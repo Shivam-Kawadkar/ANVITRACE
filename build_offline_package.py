@@ -133,9 +133,21 @@ DATA_EXPORTS_DIR=data/exports
     dest_duckdb = data_dir / "anvitrace.duckdb"
     if source_duckdb.exists() and not dest_duckdb.exists():
         print(f"[+] Copying pre-loaded DuckDB database ({source_duckdb.stat().st_size // (1024*1024)} MB)...")
-        shutil.copy2(source_duckdb, dest_duckdb)
+        try:
+            shutil.copy2(source_duckdb, dest_duckdb)
+        except Exception as e:
+            print(f"[!] Warning: Could not copy DuckDB directly ({e}).")
     elif dest_duckdb.exists():
         print("[+] Existing DuckDB database is already present.")
+
+    # Copy pre-calculated parquet indexes if present
+    source_indexes = BACKEND_DIR / "data" / "indexes"
+    dest_indexes = data_dir / "indexes"
+    if source_indexes.exists():
+        for item in source_indexes.iterdir():
+            if item.is_dir() and not (dest_indexes / item.name).exists():
+                print(f"[+] Copying parquet indexes: {item.name}...")
+                shutil.copytree(item, dest_indexes / item.name)
 
     # 4. Copy sample datasets
     sample_dir = OFFLINE_DIR / "sample_datasets"
@@ -182,8 +194,18 @@ TO SHUT DOWN:
 
 
 def main() -> None:
+    if "--assemble-only" in sys.argv:
+        assemble_distribution()
+        return
+
     if not check_prerequisites():
         sys.exit(1)
+
+    built_exe = DIST_OUTPUT / "ANVITRACE.exe"
+    if built_exe.exists() and "--rebuild" not in sys.argv:
+        print(f"[*] Found existing built executable at {built_exe}")
+        assemble_distribution()
+        return
 
     success = run_pyinstaller()
     if not success:
