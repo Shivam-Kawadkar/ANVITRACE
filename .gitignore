@@ -1,0 +1,97 @@
+# Environment
+.env
+.env.local
+.env.*
+mcp_config.json
+.agents/mcp_config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Data & Datasets (DO NOT COMMIT 2M ROW DATASET OR RUNTIME DATA)
+data/raw/*
+data/processed/*
+data/indexes/*
+data/evidence/*
+data/exports/*
+backend/data/raw/*
+backend/data/processed/*
+backend/data/indexes/*
+backend/data/evidence/*
+backend/data/exports/*
+*.csv
+*.parquet
+*.arrow
+!**/data/**/.gitkeep
+
+# Databases
+*.duckdb
+*.duckdb.wal
+*.db
+*.sqlite
+*.sqlite3
+
+# Reports & Exports
+*.pdf
+reports/
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing & Linting
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Offline Distribution & Executables
+ANVITRACE-v1.0-Offline/
+*.exe
+*.spec.bak
+
+# Node & Frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+frontend/dist-ssr/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.tempmediaStorage/
+scratch/
+

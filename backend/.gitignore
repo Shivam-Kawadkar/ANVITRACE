@@ -1,0 +1,90 @@
+# ==============================================
+# ANVITRACE — .gitignore
+# ==============================================
+
+# --- Environment ---
+.env
+.env.local
+.env.production
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+
+# --- Data (DO NOT commit datasets) ---
+data/raw/*
+data/processed/*
+data/indexes/*
+data/evidence/*
+data/exports/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/indexes/.gitkeep
+!data/evidence/.gitkeep
+!data/exports/.gitkeep
+
+# --- Databases ---
+*.duckdb
+*.duckdb.wal
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Generated Reports ---
+*.pdf
+reports/
+
+# --- Temporary Files ---
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Testing / Coverage ---
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Benchmarks output ---
+benchmarks/results/
+
+# --- Offline Distribution & Executables ---
+ANVITRACE-v1.0-Offline/
+*.exe
+*.spec.bak
+

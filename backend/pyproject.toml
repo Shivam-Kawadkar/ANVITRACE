@@ -1,0 +1,48 @@
+[project]
+name = "anvitrace"
+version = "0.1.0"
+description = "ANVITRACE — Offline cyber-forensics platform for financial transaction analysis and money-mule investigation."
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "DoomStack" },
+]
+readme = "README.md"
+
+[build-system]
+requires = ["setuptools>=75.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ── Ruff ──────────────────────────────────────────
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific rules
+]
+ignore = ["E501", "B008", "B904", "B905"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+# ── Pytest ────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "forensic: Forensic scenario tests",
+    "performance: Performance benchmarks",
+]
