@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '../api';
 import {
   FolderPlus,
@@ -69,6 +69,24 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
       return [];
     }
   });
+
+  // Re-synchronize case list whenever cases change across the app
+  useEffect(() => {
+    const syncCases = () => {
+      try {
+        const saved = localStorage.getItem('anvitrace_cases');
+        setCases(saved ? JSON.parse(saved) : []);
+      } catch {
+        setCases([]);
+      }
+    };
+    window.addEventListener('anvitrace_case_changed', syncCases);
+    window.addEventListener('storage', syncCases);
+    return () => {
+      window.removeEventListener('anvitrace_case_changed', syncCases);
+      window.removeEventListener('storage', syncCases);
+    };
+  }, []);
 
   const [filterText, setFilterText] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);

@@ -59,22 +59,32 @@ export const DEFAULT_DEMO_CASE: CaseDocket = {
   datasetHash: '2c9f81fd34f728c0b7c1e803cb49e1e231c1d9204a77badfcb737f50adf73101',
 };
 
+// Initial seeding helper: ONLY runs once if the app has NEVER been initialized on this browser
+const initializeCasesOnce = () => {
+  try {
+    const initialized = localStorage.getItem('anvitrace_cases_initialized');
+    if (!initialized) {
+      localStorage.setItem('anvitrace_cases_initialized', 'true');
+      const existingCases = localStorage.getItem('anvitrace_cases');
+      if (existingCases === null) {
+        localStorage.setItem('anvitrace_cases', JSON.stringify([DEFAULT_DEMO_CASE]));
+        localStorage.setItem('anvitrace_active_case', JSON.stringify(DEFAULT_DEMO_CASE));
+      }
+    }
+  } catch {}
+};
+
+initializeCasesOnce();
+
 export const App: React.FC = () => {
   const getHasRegisteredCases = (): boolean => {
     try {
       const saved = localStorage.getItem('anvitrace_cases');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return true;
-      }
-      // Auto-seed default demo case so AI Chatbot / Summarizer open directly with real 2M telemetry
-      localStorage.setItem('anvitrace_cases', JSON.stringify([DEFAULT_DEMO_CASE]));
-      if (!localStorage.getItem('anvitrace_active_case')) {
-        localStorage.setItem('anvitrace_active_case', JSON.stringify(DEFAULT_DEMO_CASE));
-      }
-      return true;
+      if (!saved) return false;
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) && parsed.length > 0;
     } catch {
-      return true;
+      return false;
     }
   };
 
@@ -105,9 +115,9 @@ export const App: React.FC = () => {
           return parsed[0];
         }
       }
-      return DEFAULT_DEMO_CASE;
+      return null;
     } catch {
-      return DEFAULT_DEMO_CASE;
+      return null;
     }
   });
   const datasetId = activeCase?.datasetId;
